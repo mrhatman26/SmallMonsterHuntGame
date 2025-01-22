@@ -13,7 +13,9 @@ def get_valid_number(message):
             print()
     return no
 
-while True:
+room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "))
+
+'''while True:
     turns = 0
     room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "))
     mon = Monster(room)
@@ -23,4 +25,4 @@ while True:
         while x < 10:
             mon.move(room, False)
             x += 1
-        input()
+        input()'''
