@@ -30,7 +30,6 @@ class Room():
             while spots_filled < random_spots:
                 #Random rooms (boxes) or lines
                 draw_lines = bool(r.getrandbits(1))
-                draw_lines = False
                 if draw_lines is True:
                     #Select random spots and add line from start to end.
                     from_left = bool(r.getrandbits(1))
@@ -52,23 +51,33 @@ class Room():
                     #Select random spots and create boxes.
                     random_row = r.randint(0, len(self.room))
                     random_column = r.randint(0, len(self.room[random_row - 1]))
-                    box_height = r.randint(random_row + 1, random_row + (len(self.room) - 1))
-                    box_width = r.randint(random_column + 1, random_column + (len(self.room[random_row]) - 1))
-                    print(box_width)
+                    box_height = r.randint(2, len(self.room) / 2)
+                    box_width = r.randint(2, len(self.room[random_row]) / 2)
                     row = random_row
+                    row_counter = 0
                     column = random_column
-                    while row < len(self.room):
-                        if row > box_height:
+                    column_counter = 0
+                    while row_counter < len(self.room) - 1:
+                        column_counter = 0
+                        print("------------START LOOP------------")
+                        if row_counter > random_row + box_height or row + row_counter > len(self.room):
+                            print("[ROW BREAK]")
                             break
                         else:
-                            while column < len(self.room[row]):
-                                if column > box_width:
+                            while column_counter < len(self.room[row]):
+                                if column_counter > random_column + box_width or column + column_counter > len(self.room[row]) - 1:
+                                    print("[COLUMN BREAK]")
                                     break
                                 else:
-                                    self.room[row][column] = True
-                                column += 1
-                        row += 1
-                spots_filled += 1
+                                    print("row_counter = " + str(row_counter) + "\ncolumn_counter = " + str(column_counter) + "\nrandom_row + box_height = " + str(random_row + box_height) + "\nrandom_column + box_width = " + str(random_column + box_width))
+                                    try:
+                                        self.room[row + row_counter][column + column_counter] = True
+                                    except Exception as e:
+                                        print(e)
+                                column_counter += 1
+                        row_counter += 1
+                    print("------------END LOOP------------")
+                spots_filled += 1 #Boxes don't generate properly! Fix this!!!!
         self.describe_room()
 
     def describe_room(self):
