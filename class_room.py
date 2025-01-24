@@ -36,6 +36,7 @@ class Room():
             while spots_filled < random_spots:
                 #Random rooms (boxes) or lines
                 draw_lines = bool(r.getrandbits(1))
+                draw_lines = True
                 if draw_lines is True:
                     #Select random spots and add line from start to end.
                     from_left = bool(r.getrandbits(1))
@@ -87,9 +88,9 @@ class Room():
                 #For now, the generation may not link rooms together.
                 #Teleporting is a solution for now, but
                 #It should be fixed.
-        self.describe_room()
+        self.print_room()
 
-    def describe_room(self):
+    def print_room(self):
         for row in self.room:
             for column in row:
                 if column is True:
@@ -97,6 +98,30 @@ class Room():
                 else:
                     print("[x]", end="")
             print()
+
+    def describe_movement(self, current_pos):
+        possible_movement_directions = [False, False, False, False] #0 = Up, 1 = Down, 2 = Left and 3 = Right
+        #Check above pos
+        if current_pos[1] > 0:
+            if self.room[current_pos[1] - 1][current_pos[0]] == True:
+                possible_movement_directions[0] = True
+                print("You can move North from here")
+        #Check below pos
+        if current_pos[1] < self.room_height - 1:
+            if self.room[current_pos[1] + 1][current_pos[0]] == True:
+                possible_movement_directions[1] = True
+                print("You can move South from here")
+        #Chceck left pos
+        if current_pos[0] > 0:
+            if self.room[current_pos[1]][current_pos[0] - 1] == True:
+                possible_movement_directions[2] = True
+                print("You can move West from here")
+        #Check right pos
+        if current_pos[0] < self.room_width - 1:
+            if self.room[current_pos[1]][current_pos[0] + 1] == True:
+                possible_movement_directions[3] = True
+                print("You can move East from here")
+        return possible_movement_directions
 
     def show_pos_in_room(self, pos):
         row = 0

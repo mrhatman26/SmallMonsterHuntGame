@@ -2,6 +2,9 @@ import tkinter as t
 from tkinter import filedialog as f
 from tkinter import messagebox
 
+def pause():
+    input("(Press ENTER to continue)")
+
 def str_to_int_test(text):
     if type(text) == str:
         try:

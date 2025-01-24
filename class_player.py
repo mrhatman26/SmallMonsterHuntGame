@@ -1,5 +1,9 @@
+import random as r
+from misc import *
+
 class Player():
-    pos [0, 0]
+    pos = [0, 0]
+    possible_movement_directions = [False, False, False, False] #0 = Up, 1 = Down, 2 = Left and 3 = Right
     move_flavour_text = ["You tread lightly; your weapon close to your chest.",
                          "You face the fear and move forward.",
                          "You make no sound as you tip toe forward.",
@@ -18,7 +22,7 @@ class Player():
     def __init__(self, room):
         self.pos[0] = -1
         self.pos[1] = -1
-        self.move(room, True)
+        self.move(room, True, False)
 
     def move(self, room, move, no_print):
         if move is True:
@@ -30,3 +34,20 @@ class Player():
         else:
             if no_print is False:
                 print(self.sleep_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+
+    def ask_option(self):
+        option = None
+        while True:
+            print("Do you want to Move (M) or Rest (R)?")
+            str(input("Option: ")).upper()
+            if option != "M" and option != "MOVE" and option != "R" and option != "REST":
+                print("Please enter a valid option")
+                pause()
+                print()
+            else:
+                break
+        return option
+
+    def turn(self, room):
+        room.show_pos_in_room(self.pos)
+        room.describe_movement(self.pos)
