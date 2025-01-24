@@ -5,13 +5,15 @@ class Room():
     room = []
     room_width = 4
     room_height = 4
+    debug = False
 
-    def __init__(self, room_width, room_height):
+    def __init__(self, room_width, room_height, debug):
         self.room_width = room_width
         self.room_height = room_height
         self.generate_room(False)
         self.pos[0] = -1
         self.pos[1] = -1
+        self.debug = debug
         self.move()
 
     def generate_room(self, old_gen):
