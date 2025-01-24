@@ -1,6 +1,7 @@
 import random as r
 
 class Room():
+    pos = [0, 0]
     room = []
     room_width = 4
     room_height = 4
@@ -9,6 +10,9 @@ class Room():
         self.room_width = room_width
         self.room_height = room_height
         self.generate_room(False)
+        self.pos[0] = -1
+        self.pos[1] = -1
+        self.move()
 
     def generate_room(self, old_gen):
         if old_gen is True:
@@ -77,7 +81,10 @@ class Room():
                                 column_counter += 1
                         row_counter += 1
                     print("------------END LOOP------------")
-                spots_filled += 1 #Boxes don't generate properly! Fix this!!!!
+                spots_filled += 1
+                #For now, the generation may not link rooms together.
+                #Teleporting is a solution for now, but
+                #It should be fixed.
         self.describe_room()
 
     def describe_room(self):
@@ -115,4 +122,9 @@ class Room():
                     break
         print(selected_column, "|", selected_row)
         return (selected_column, selected_row)
+
+    def move(self):
+        rand_pos = self.get_random_pos()
+        self.pos[0] = rand_pos[0]
+        self.pos[1] = rand_pos[1]
                     
