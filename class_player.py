@@ -4,6 +4,7 @@ from misc import *
 class Player():
     pos = [0, 0]
     possible_movement_directions = [False, False, False, False] #0 = Up, 1 = Down, 2 = Left and 3 = Right
+    selected_direction = -1
     move_flavour_text = ["You tread lightly; your weapon close to your chest.",
                          "You face the fear and move forward.",
                          "You make no sound as you tip toe forward.",
@@ -22,32 +23,94 @@ class Player():
     def __init__(self, room):
         self.pos[0] = -1
         self.pos[1] = -1
-        self.move(room, True, False)
+        self.move(room, True, True, True)
+        self.selected_direction = 0
 
-    def move(self, room, move, no_print):
+    def move(self, room, move, no_print, is_random):
         if move is True:
-            rand_pos = room.get_random_pos()
-            self.pos[0] = rand_pos[0]
-            self.pos[1] = rand_pos[1]
-            if no_print is False:
-                print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+            if is_random is True:
+                rand_pos = room.get_random_pos()
+                self.pos[0] = rand_pos[0]
+                self.pos[1] = rand_pos[1]
+                if no_print is False:
+                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+            else:
+                if self.selected_direction == 0:
+                    self.pos[1] -= 1
+                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                elif self.selected_direction == 1:
+                    self.pos[0] += 1
+                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                elif self.selected_direction == 2:
+                    self.pos[1] += 1
+                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                elif self.selected_direction == 3:
+                    self.pos[0] -= 1
+                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                else:
+                    print("I was told to move you but... I forgot where? I'll leave you there for now...")
         else:
             if no_print is False:
                 print(self.sleep_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
 
-    def ask_option(self):
+    def ask_option(self, ask_move):
         option = None
-        while True:
-            print("Do you want to Move (M) or Rest (R)?")
-            str(input("Option: ")).upper()
-            if option != "M" and option != "MOVE" and option != "R" and option != "REST":
-                print("Please enter a valid option")
-                pause()
-                print()
-            else:
-                break
+        if ask_move is True:
+            while True:
+                print("Do you want to Move (M), Rest (R) or Attack(A)?")
+                option = str(input("Option: ")).upper()
+                if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK":
+                    print("Please enter a valid option")
+                    pause()
+                    print()
+                else:
+                    break
+        else:
+            while True:
+                print("Do you want to move North (N), East (E), South (S) or West (W)?")
+                option = str(input("Option: ")).upper()
+                if option != "N" and option != "NORTH" and option != "E" and option != "EAST" and option != "S" and option != "SOUTH" and option != "W" and option != "WEST":
+                    print("Please enter a valid option")
+                    pause()
+                    print()
+                else:
+                    break
         return option
 
     def turn(self, room):
         room.show_pos_in_room(self.pos)
         room.describe_movement(self.pos)
+        move_option = self.ask_option(True)
+        if move_option == "R":
+            self.move(room, False, False, False)
+        elif move_option == "M":
+            move_option = self.ask_option(False)
+            if move_option == "N" or move_option == "NORTH":
+                if room.spot_is_valid((self.pos[0], self.pos[1] - 1)) is True:
+                    self.selected_direction = 0
+                    self.move(room, True, False, False)
+                else:
+                    print("You hit a wall; You're head hurts.")
+            elif move_option == "E" or move_option == "EAST":
+                if room.spot_is_valid((self.pos[0] + 1, self.pos[1])) is True:
+                    self.selected_direction = 1
+                    self.move(room, True, False, False)
+                else:
+                    print("You thought you saw a doorway; your new headache says otherwise.")
+            elif move_option == "S" or move_option == "SOUTH":
+                if room.spot_is_valid((self.pos[0], self.pos[1] + 1)) is True:
+                    self.selected_direction = 2
+                    self.move(room, True, False, False)
+                else:
+                    print("Your head hurts. Why did you walk into a wall?")
+            elif move_option == "W" or move_option == "WEST":
+                if room.spot_is_valid((self.pos[0] - 1, self.pos[1])) is True:
+                    self.selected_direction = 3
+                    self.move(room, True, False, False)
+                else:
+                    print("There's a wall there. The price is a headache.")
+            else:
+                print("Sorry, my ears are ringing... " + str(move_option) + " can't be what you said... Right?")
+        else:
+            print("Sorry, I think I had an error? What did you say?")
+        

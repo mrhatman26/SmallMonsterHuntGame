@@ -19,8 +19,15 @@ while True:
     monster = Monster(room)
     player = Player(room)
     while True: #Actutal Game
+        clear()
         print("Turns: " + str(turns))
         #Player's turn first
         player.turn(room)
-        input()
-        clear()
+        pause()
+        #Monster's turn next
+        print()
+        monster.move(room, False)
+        pause()
+        #Then finally, the room itself?
+        room.move()
+        turns += 1

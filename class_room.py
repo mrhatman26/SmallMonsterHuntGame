@@ -147,11 +147,20 @@ class Room():
                 selected_column = r.randint(0, len(self.room[selected_row]) - 1)
                 if self.room[selected_row][selected_column] is True:
                     break
-        print(selected_column, "|", selected_row)
+        #print(selected_column, "|", selected_row)
         return (selected_column, selected_row)
 
     def move(self):
         rand_pos = self.get_random_pos()
         self.pos[0] = rand_pos[0]
         self.pos[1] = rand_pos[1]
+
+    def spot_is_valid(self, test_pos):
+        try:
+            if self.room[test_pos[1]][test_pos[0]] == True:
+                return True
+            else:
+                return False
+        except:
+            return False
                     
