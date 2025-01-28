@@ -36,7 +36,6 @@ class Room():
             while spots_filled < random_spots:
                 #Random rooms (boxes) or lines
                 draw_lines = bool(r.getrandbits(1))
-                draw_lines = True
                 if draw_lines is True:
                     #Select random spots and add line from start to end.
                     from_left = bool(r.getrandbits(1))
