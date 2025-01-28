@@ -12,6 +12,13 @@ class Player():
                          "You try to dispell the thoughts of your death as you sprint forward.",
                          "Now's not the time to panic; you dash forward."]
 
+    teleport_flavour_text = ["The device on your wrist transports you to somewhere completely random.",
+                             "A flick of the device on your wrist (and your wrist) and you're in a new place.",
+                             "An orange glow on your wrist and, before you know it, the view is completely different.",
+                             "Nanomachines take you apart and rebuild you in a completely random spot. Is it still you?",
+                             "You find yourself teleported to a new location. Hopefully you don't have nightmares about that cat.",
+                             "From here to there in under a second. Well, from your point of view at least."]
+
     sleep_flavour_text = ["You face remains pale as you sit idley.",
                           "A break: The only source of comfort in this place.",
                           "Nothing to eat; nothing to do. You sit in silence.",
@@ -40,7 +47,7 @@ class Player():
                 self.pos[0] = rand_pos[0]
                 self.pos[1] = rand_pos[1]
                 if no_print is False:
-                    print_random_list(self.move_flavour_text)
+                    print_random_list(self.teleport_flavour_text)
             else:
                 if self.selected_direction == 0:
                     self.pos[1] -= 1
@@ -66,7 +73,8 @@ class Player():
             while True:
                 print("Do you want to Move (M), Rest (R), Attack (A) Teleport (T) or Quit (Q)?")
                 option = str(input("Option: ")).upper()
-                if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK" and option != "Q" and option != "QUIT":
+                if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK" and option != "Q" and option != "QUIT" and option != "T" and option != "TELEPORT":
+                    #Okay, this IF statement is getting a bit too long. Think of something to improve it perhaps?
                     print("Please enter a valid option")
                     pause()
                     print()
@@ -118,6 +126,8 @@ class Player():
                     print_random_list(self.hit_wall_flavour_text)
             else:
                 print("Sorry, my ears are ringing... " + str(move_option) + " can't be what you said... Right?")
+        elif move_option == "T" or move_option == "TELEPORT":
+            self.move(room, True, False, True)
         elif move_option == "Q" or move_option == "QUIT":
             return 0
         else:
