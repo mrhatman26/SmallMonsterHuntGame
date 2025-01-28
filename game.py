@@ -1,4 +1,4 @@
-import platform, os
+import platform, os, sys
 from class_room import Room
 from class_monster import Monster
 from class_player import Player
@@ -22,7 +22,8 @@ while True:
         clear()
         print("Turns: " + str(turns))
         #Player's turn first
-        player.turn(room)
+        if player.turn(room) == 0:
+            sys.exit()
         pause()
         #Monster's turn next
         print()

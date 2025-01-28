@@ -66,7 +66,7 @@ class Player():
             while True:
                 print("Do you want to Move (M), Rest (R) or Attack(A)?")
                 option = str(input("Option: ")).upper()
-                if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK":
+                if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK" and option != "Q" and option != "QUIT":
                     print("Please enter a valid option")
                     pause()
                     print()
@@ -88,9 +88,9 @@ class Player():
         room.show_pos_in_room(self.pos)
         room.describe_movement(self.pos)
         move_option = self.ask_option(True)
-        if move_option == "R":
+        if move_option == "R" or move_option == "REST":
             self.move(room, False, False, False)
-        elif move_option == "M":
+        elif move_option == "M" or move_option == "MOVE":
             move_option = self.ask_option(False)
             if move_option == "N" or move_option == "NORTH":
                 if room.spot_is_valid((self.pos[0], self.pos[1] - 1)) is True:
@@ -118,6 +118,8 @@ class Player():
                     print_random_list(self.hit_wall_flavour_text)
             else:
                 print("Sorry, my ears are ringing... " + str(move_option) + " can't be what you said... Right?")
+        elif move_option == "Q" or move_option == "QUIT":
+            return 0
         else:
             print("Sorry, I think I had an error? What did you say?")
         
