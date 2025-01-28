@@ -65,7 +65,8 @@ class Monster():
                         self.pos[0] -= 1
                     if move_option == 3:
                         self.pos[0] += 1
-                    print_random_list(self.move_flavour_text)
+                    if no_print is False:
+                        print_random_list(self.move_flavour_text)
             else:
                 if no_print is False:
                     print_random_list(self.sleep_flavour_text)
