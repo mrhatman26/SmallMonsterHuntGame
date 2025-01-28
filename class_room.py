@@ -55,10 +55,10 @@ class Room():
                             row += 1
                 else:
                     #Select random spots and create boxes.
-                    random_row = r.randint(0, len(self.room))
-                    random_column = r.randint(0, len(self.room[random_row - 1]))
-                    box_height = r.randint(2, len(self.room) / 2)
-                    box_width = r.randint(2, len(self.room[random_row]) / 2)
+                    random_row = r.randint(0, len(self.room) - 1)
+                    random_column = r.randint(0, len(self.room[random_row]) - 1)
+                    box_height = r.randint(2, int(len(self.room) / 2))
+                    box_width = r.randint(2, int(len(self.room[random_row]) / 2))
                     row = random_row
                     row_counter = 0
                     column = random_column
