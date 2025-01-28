@@ -64,7 +64,7 @@ class Player():
         option = None
         if ask_move is True:
             while True:
-                print("Do you want to Move (M), Rest (R) or Attack(A)?")
+                print("Do you want to Move (M), Rest (R), Attack (A) Teleport (T) or Quit (Q)?")
                 option = str(input("Option: ")).upper()
                 if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK" and option != "Q" and option != "QUIT":
                     print("Please enter a valid option")
