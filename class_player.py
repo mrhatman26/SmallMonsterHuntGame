@@ -5,6 +5,7 @@ class Player():
     pos = [0, 0]
     possible_movement_directions = [False, False, False, False] #0 = Up, 1 = Down, 2 = Left and 3 = Right
     selected_direction = -1
+    debug = False
     move_flavour_text = ["You tread lightly; your weapon close to your chest.",
                          "You face the fear and move forward.",
                          "You make no sound as you tip toe forward.",
@@ -32,13 +33,43 @@ class Player():
                              "You thought you saw a doorway; your new headache says otherwise.",
                              "You hit a wall; You're head hurts.",
                              "Walls hurt. This wall is no different"]
+
+    wall_attacked_flavour_text = ["You shoot a wall. You're not sure if this out of panic or boredom or both.",
+                                  "You shoot a wall. The wall is displeased.",
+                                  "You brute! Shooting a wall like that! What did it do to you!",
+                                  "Some of my best friends are walls. Please don't shoot them...",
+                                  "Walls are friends, not food; Uhm, enimes...",
+                                  "Nothing there but a wall...",
+                                  "They're not like force fields, but walls can still stop bullets. So don't shoot them..."]
+
+    monster_attacked_flavour_text = ["Monster down! Repeat, monster down! Good work agent!",
+                                     "Good headshot. Monster down. Return to base agent.",
+                                     "Swiss cheese. Good work agent, return to base.",
+                                     "Your corporation is very pround of you agent. Truly. Return to base.",
+                                     "Monster down. Return to base agent. No award this time, as usual.",
+                                     "Good job agent. No promotion this time. Or ever really. Return to base.",
+                                     "Boom. Good job. Return to base.",
+                                     "Took you long enough agent. Return to base.",
+                                     "Good job. Not enough to open the wine, but good job none the less. Return to base."]
+
+    monster_missed_flavour_text = ["Miss. Do try better agent. We don't want this monster rampaging much longer.",
+                                   "Nope... Nothing there. Well, back to hunting agent...",
+                                   "Good thing your gun has a nanite chamber, huh? Please don't waste your infinite ammo though.",
+                                   "Don't just fire your gun randomly agent. Try finding the monster first, eh?",
+                                   "You weren't traind as a storm trooper, so don't shoot randomly like one; please."
+                                   "Want to be retired from the corporation agent? We trained you better than that.",
+                                   "Afraid we didn't supply you with homing bullets, agent. Please don't fire wildly or randomly.",
+                                   "Need someone else to take over from you agent? Shoot the monster, not the air.",
+                                   "We'd prefer it if you shot the wall. Then at least you'd be aiming at something!",
+                                   "...Just shoot the monster, please?"]
                              
 
-    def __init__(self, room):
+    def __init__(self, room, debug):
         self.pos[0] = -1
         self.pos[1] = -1
         self.move(room, True, True, True)
         self.selected_direction = 0
+        self.debug = debug
 
     def move(self, room, move, no_print, is_random):
         if move is True:
@@ -67,8 +98,18 @@ class Player():
             if no_print is False:
                 print_random_list(self.sleep_flavour_text)
 
-    def ask_option(self, ask_move):
+    def ask_option(self, ask_move, is_attack):
         option = None
+        if is_attack is True:
+            while True:
+                print("Do you want to attack North (N), East (E), South (S) or West (W)?")
+                option = str(input("Option: ")).upper()
+                if option != "N" and option != "NORTH" and option != "E" and option != "EAST" and option != "S" and option != "SOUTH" and option != "W" and option != "WEST":
+                    print("Please enter a valid option")
+                    pause()
+                    print()
+                else:
+                    break
         if ask_move is True:
             while True:
                 print("Do you want to Move (M), Rest (R), Attack (A) Teleport (T) or Quit (Q)?")
@@ -81,27 +122,74 @@ class Player():
                 else:
                     break
         else:
-            while True:
-                print("Do you want to move North (N), East (E), South (S) or West (W)?")
-                option = str(input("Option: ")).upper()
-                if option != "N" and option != "NORTH" and option != "E" and option != "EAST" and option != "S" and option != "SOUTH" and option != "W" and option != "WEST":
-                    print("Please enter a valid option")
-                    pause()
-                    print()
-                else:
-                    break
+            if is_attack is False:
+                while True:
+                    print("Do you want to move North (N), East (E), South (S) or West (W)?")
+                    option = str(input("Option: ")).upper()
+                    if option != "N" and option != "NORTH" and option != "E" and option != "EAST" and option != "S" and option != "SOUTH" and option != "W" and option != "WEST":
+                        print("Please enter a valid option")
+                        pause()
+                        print()
+                    else:
+                        break
         return option
 
-    def turn(self, room):
+    def turn(self, room, monster):
         room.show_pos_in_room(self.pos)
+        if self.debug is True:
+            print(self.pos)
+            print("----------------------------------------------------------------")
+            room.show_pos_in_room(monster.pos)
+            print(monster.pos)
         room.describe_movement(self.pos)
-        move_option = self.ask_option(True)
+        move_option = self.ask_option(True, False)
         if move_option == "R" or move_option == "REST":
             self.move(room, False, False, False)
-        elif move_option == "M" or move_option == "MOVE":
-            move_option = self.ask_option(False)
+        elif move_option == "A" or move_option == "ATTACK":
+            move_option = self.ask_option(False, True)
+            #Reusing the move_option variable here, but it is actually the direction the player wants to attack.
             if move_option == "N" or move_option == "NORTH":
-                if room.spot_is_valid((self.pos[0], self.pos[1] - 1)) is True:
+                if room.spot_is_valid((self.pos[0], self.pos[1] - 1)) is True: #Check North is valid
+                    if monster.check_hit((self.pos[0], self.pos[1] - 1)) is True:
+                        print_random_list(self.monster_attacked_flavour_text) #Monster hit!
+                        return 1
+                    else:
+                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                else:
+                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+            elif move_option == "E" or move_option == "EAST": 
+                if room.spot_is_valid((self.pos[0] + 1, self.pos[1])) is True: #Check East is valid
+                    if monster.check_hit((self.pos[0] + 1, self.pos[1])) is True:
+                        print_random_list(self.monster_attacked_flavour_text) #Monster hit!
+                        return 1
+                    else:
+                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                else:
+                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+            elif move_option == "S" or move_option == "SOUTH": 
+                if room.spot_is_valid((self.pos[0], self.pos[1] + 1)) is True: #Check South is valid
+                    if monster.check_hit((self.pos[0], self.pos[1] + 1)) is True:
+                        print_random_list(self.monster_attacked_flavour_text) #Monster hit!
+                        return 1
+                    else:
+                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                else:
+                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+            elif move_option == "W" or move_option == "WEST": 
+                if room.spot_is_valid((self.pos[0] - 1, self.pos[1])) is True: #Check West is valid
+                    if monster.check_hit((self.pos[0] - 1, self.pos[1])) is True:
+                        print_random_list(self.monster_attacked_flavour_text) #Monster hit!
+                        return 1
+                    else:
+                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                else:
+                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+            else:
+                print("What... The bullet chose it's own path? What? Well it missed anyway...")
+        elif move_option == "M" or move_option == "MOVE":
+            move_option = self.ask_option(False, False)
+            if move_option == "N" or move_option == "NORTH":
+                if room.spot_is_valid((self.pos[0], self.pos[1] - 1)) is True: #Check North is valid
                     self.selected_direction = 0
                     self.move(room, True, False, False)
                 else:

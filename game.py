@@ -17,17 +17,23 @@ while True:
     turns = 0
     room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "), debug)
     monster = Monster(room)
-    player = Player(room)
+    player = Player(room, debug)
+    result = -1
     while True: #Actutal Game
         clear()
         print("Turns: " + str(turns))
         #Player's turn first
-        if player.turn(room) == 0:
+        result = player.turn(room, monster)
+        if result == 0:
+            sys.exit()
+        if result == 1:
+            print("You win!")
+            pause()
             sys.exit()
         pause()
         #Monster's turn next
         print()
-        monster.move(room, False)
+        monster.move(room, False, False)
         pause()
         #Then finally, the room itself?
         room.move()

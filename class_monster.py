@@ -30,16 +30,29 @@ class Monster():
     def __init__(self, room):
         self.pos[0] = -1
         self.pos[0] = -1
-        self.move(room, True)
+        self.move(room, True, True)
 
-    def move(self, room, no_print):
-        if self.move_chances[r.randint(0, len(self.move_chances) - 1)] is True:
+    def move(self, room, no_print, not_random):
+        if not_random is True:
             rand_pos = room.get_random_pos()
             self.pos[0] = rand_pos[0]
             self.pos[1] = rand_pos[1]
             if no_print is False:
                 print_random_list(self.move_flavour_text)
         else:
-            if no_print is False:
-                print_random_list(self.sleep_flavour_text)
+            if self.move_chances[r.randint(0, len(self.move_chances) - 1)] is True:
+                rand_pos = room.get_random_pos()
+                self.pos[0] = rand_pos[0]
+                self.pos[1] = rand_pos[1]
+                if no_print is False:
+                    print_random_list(self.move_flavour_text)
+            else:
+                if no_print is False:
+                    print_random_list(self.sleep_flavour_text)
+
+    def check_hit(self, attack_pos):
+        if attack_pos[0] == pos[0] and attack_pos[1] == pos[1]:
+            return True
+        else:
+            return False
                 
