@@ -18,13 +18,6 @@ class Monster():
                          "You hear nothing but your heartbeat.",
                          "A gust of wind goes by. It's calm."]
 
-    closeby_flavour_text = ["A loud roar fills you with dread, it seems to be all around you.",
-                           "The ground quakes heavily all around; you catch your self from falling.",
-                           "The monster must be close; its sounds are deafening.",
-                           "Your heart is filled with dread; your ears are deafened; the monster is close.",
-                           "You tread lightly, something tells you the monster is nearby. Perhaps it's how you've gone deaf?",
-                           "The quakes from whatever is nearby cause you to nearly drop your weapon and cover your ears."]
-
     move_chances = [False, False, False, True, True]
     
     def __init__(self, room):
@@ -51,8 +44,27 @@ class Monster():
                     print_random_list(self.sleep_flavour_text)
 
     def check_hit(self, attack_pos):
-        if attack_pos[0] == pos[0] and attack_pos[1] == pos[1]:
+        if attack_pos[0] == self.pos[0] and attack_pos[1] == self.pos[1]:
             return True
         else:
             return False
-                
+
+    def check_nearby(self, player):
+        try:
+            #North
+            if self.pos[0] == player.pos[0] and self.pos[1] - 1 == player.pos[1]:
+                return True
+            #East
+            elif self.pos[0] + 1 == player.pos[0] and self.pos[1] == player.pos[1]:
+                return True
+            #South
+            elif self.pos[0] == player.pos[0] and self.pos[1] + 1 == player.pos[1]:
+                return True
+            #West
+            elif self.pos[0] - 1 == player.pos[0] and self.pos[1] == player.pos[1]:
+                return True
+            else:
+                return False
+        except:
+            return False
+            

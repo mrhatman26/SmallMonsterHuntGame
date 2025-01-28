@@ -62,6 +62,13 @@ class Player():
                                    "Need someone else to take over from you agent? Shoot the monster, not the air.",
                                    "We'd prefer it if you shot the wall. Then at least you'd be aiming at something!",
                                    "...Just shoot the monster, please?"]
+
+    closeby_flavour_text = ["A loud roar fills you with dread, it seems to be all around you.",
+                           "The ground quakes heavily all around; you catch your self from falling.",
+                           "The monster must be close; its sounds are deafening.",
+                           "Your heart is filled with dread; your ears are deafened; the monster is close.",
+                           "You tread lightly, something tells you the monster is nearby. Perhaps it's how you've gone deaf?",
+                           "The quakes from whatever is nearby cause you to nearly drop your weapon and cover your ears."]
                              
 
     def __init__(self, room, debug):
@@ -141,6 +148,10 @@ class Player():
             print("----------------------------------------------------------------")
             room.show_pos_in_room(monster.pos)
             print(monster.pos)
+        print("")
+        if monster.check_nearby(self) is True:
+            print_random_list(self.closeby_flavour_text)
+            pause()
         room.describe_movement(self.pos)
         move_option = self.ask_option(True, False)
         if move_option == "R" or move_option == "REST":
@@ -154,36 +165,36 @@ class Player():
                         print_random_list(self.monster_attacked_flavour_text) #Monster hit!
                         return 1
                     else:
-                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                        print_random_list(self.monster_missed_flavour_text) #Monster not hit
                 else:
-                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+                    print_random_list(self.wall_attacked_flavour_text) #Wall hit.
             elif move_option == "E" or move_option == "EAST": 
                 if room.spot_is_valid((self.pos[0] + 1, self.pos[1])) is True: #Check East is valid
                     if monster.check_hit((self.pos[0] + 1, self.pos[1])) is True:
                         print_random_list(self.monster_attacked_flavour_text) #Monster hit!
                         return 1
                     else:
-                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                        print_random_list(self.monster_missed_flavour_text) #Monster not hit
                 else:
-                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+                    print_random_list(self.wall_attacked_flavour_text) #Wall hit.
             elif move_option == "S" or move_option == "SOUTH": 
                 if room.spot_is_valid((self.pos[0], self.pos[1] + 1)) is True: #Check South is valid
                     if monster.check_hit((self.pos[0], self.pos[1] + 1)) is True:
                         print_random_list(self.monster_attacked_flavour_text) #Monster hit!
                         return 1
                     else:
-                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                        print_random_list(self.monster_missed_flavour_text) #Monster not hit
                 else:
-                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+                    print_random_list(self.wall_attacked_flavour_text) #Wall hit.
             elif move_option == "W" or move_option == "WEST": 
                 if room.spot_is_valid((self.pos[0] - 1, self.pos[1])) is True: #Check West is valid
                     if monster.check_hit((self.pos[0] - 1, self.pos[1])) is True:
                         print_random_list(self.monster_attacked_flavour_text) #Monster hit!
                         return 1
                     else:
-                        print_random_list(monster_missed_flavour_text) #Monster not hit
+                        print_random_list(self.monster_missed_flavour_text) #Monster not hit
                 else:
-                    print_random_list(wall_attacked_flavour_text) #Wall hit.
+                    print_random_list(self.wall_attacked_flavour_text) #Wall hit.
             else:
                 print("What... The bullet chose it's own path? What? Well it missed anyway...")
         elif move_option == "M" or move_option == "MOVE":
