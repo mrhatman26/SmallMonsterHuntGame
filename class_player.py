@@ -119,7 +119,7 @@ class Player():
                     break
         if ask_move is True:
             while True:
-                print("Do you want to Move (M), Rest (R), Attack (A) Teleport (T) or Quit (Q)?")
+                print("Do you want to Move (M), Rest (R), Attack (A) Teleport (T), or Quit (Q)?")
                 option = str(input("Option: ")).upper()
                 if option != "M" and option != "MOVE" and option != "R" and option != "REST" and option != "A" and option != "ATTACK" and option != "Q" and option != "QUIT" and option != "T" and option != "TELEPORT":
                     #Okay, this IF statement is getting a bit too long. Think of something to improve it perhaps?
@@ -142,6 +142,7 @@ class Player():
         return option
 
     def turn(self, room, monster):
+        #ToDo: Check for if the player and monster are on top of each other (Player loss).
         room.show_pos_in_room(self.pos)
         if self.debug is True:
             print(self.pos)
@@ -152,7 +153,8 @@ class Player():
         if monster.check_nearby(self) is True:
             print_random_list(self.closeby_flavour_text)
             pause()
-        room.describe_movement(self.pos)
+            print("")
+        room.describe_movement(self.pos, False)
         move_option = self.ask_option(True, False)
         if move_option == "R" or move_option == "REST":
             self.move(room, False, False, False)
