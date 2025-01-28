@@ -20,7 +20,12 @@ class Player():
                           "You wonder if there is anyone out there as you sit in silence.",
                           "You might be tired but your fear keeps you awake as you sit idle."]
 
-    #hit_wall_flavour_text = ["
+    hit_wall_flavour_text = ["There's a wall there. The price is a headache.",
+                             "Your head hurts. Why did you walk into a wall?",
+                             "You thought you saw a doorway; your new headache says otherwise.",
+                             "You hit a wall; You're head hurts.",
+                             "Walls hurt. This wall is no different"]
+                             
 
     def __init__(self, room):
         self.pos[0] = -1
@@ -92,25 +97,25 @@ class Player():
                     self.selected_direction = 0
                     self.move(room, True, False, False)
                 else:
-                    print("You hit a wall; You're head hurts.")
+                    print_random_list(self.hit_wall_flavour_text)
             elif move_option == "E" or move_option == "EAST":
                 if room.spot_is_valid((self.pos[0] + 1, self.pos[1])) is True:
                     self.selected_direction = 1
                     self.move(room, True, False, False)
                 else:
-                    print("You thought you saw a doorway; your new headache says otherwise.")
+                    print_random_list(self.hit_wall_flavour_text)
             elif move_option == "S" or move_option == "SOUTH":
                 if room.spot_is_valid((self.pos[0], self.pos[1] + 1)) is True:
                     self.selected_direction = 2
                     self.move(room, True, False, False)
                 else:
-                    print("Your head hurts. Why did you walk into a wall?")
+                    print_random_list(self.hit_wall_flavour_text)
             elif move_option == "W" or move_option == "WEST":
                 if room.spot_is_valid((self.pos[0] - 1, self.pos[1])) is True:
                     self.selected_direction = 3
                     self.move(room, True, False, False)
                 else:
-                    print("There's a wall there. The price is a headache.")
+                    print_random_list(self.hit_wall_flavour_text)
             else:
                 print("Sorry, my ears are ringing... " + str(move_option) + " can't be what you said... Right?")
         else:
