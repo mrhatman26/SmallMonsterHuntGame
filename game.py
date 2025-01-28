@@ -13,7 +13,7 @@ else:
     clear = lambda: os.system('cls')
 while True:
     #Setup game
-    debug = True
+    debug = ask_question("Debug?", "Enable debug mode?")
     turns = 0
     room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "), debug)
     monster = Monster(room)
