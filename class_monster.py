@@ -1,4 +1,5 @@
 import random as r
+from misc import print_random_list
 
 class Monster():
     pos = [0, 0]
@@ -37,8 +38,8 @@ class Monster():
             self.pos[0] = rand_pos[0]
             self.pos[1] = rand_pos[1]
             if no_print is False:
-                print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                print_random_list(self.move_flavour_text)
         else:
             if no_print is False:
-                print(self.sleep_flavour_text[r.randint(0, len(self.sleep_flavour_text) - 1)])
+                print_random_list(self.sleep_flavour_text)
                 

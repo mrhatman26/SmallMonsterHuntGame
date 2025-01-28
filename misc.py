@@ -1,4 +1,5 @@
 import tkinter as t
+import random as r
 from tkinter import filedialog as f
 from tkinter import messagebox
 
@@ -28,6 +29,15 @@ def get_valid_number(message):
 
 def zlen(item):
     return len(item) - 1
+
+def print_random_list(list_var):
+    if type(list_var) == list:
+        if len(list_var) > 0:
+            print(list_var[r.randint(0, len(list_var) - 1)])
+        else:
+            print("ERROR [print_random_list]: Given list is empty.")
+    else:
+        print("ERROR [print_random_list]: Given list is NOT a list!")
 
 def load_file():
     window = t.Tk()

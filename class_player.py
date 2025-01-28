@@ -20,6 +20,8 @@ class Player():
                           "You wonder if there is anyone out there as you sit in silence.",
                           "You might be tired but your fear keeps you awake as you sit idle."]
 
+    #hit_wall_flavour_text = ["
+
     def __init__(self, room):
         self.pos[0] = -1
         self.pos[1] = -1
@@ -33,25 +35,25 @@ class Player():
                 self.pos[0] = rand_pos[0]
                 self.pos[1] = rand_pos[1]
                 if no_print is False:
-                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                    print_random_list(self.move_flavour_text)
             else:
                 if self.selected_direction == 0:
                     self.pos[1] -= 1
-                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                    print_random_list(self.move_flavour_text)
                 elif self.selected_direction == 1:
                     self.pos[0] += 1
-                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                    print_random_list(self.move_flavour_text)
                 elif self.selected_direction == 2:
                     self.pos[1] += 1
-                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                    print_random_list(self.move_flavour_text)
                 elif self.selected_direction == 3:
                     self.pos[0] -= 1
-                    print(self.move_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                    print_random_list(self.move_flavour_text)
                 else:
                     print("I was told to move you but... I forgot where? I'll leave you there for now...")
         else:
             if no_print is False:
-                print(self.sleep_flavour_text[r.randint(0, len(self.move_flavour_text) - 1)])
+                print_random_list(self.sleep_flavour_text)
 
     def ask_option(self, ask_move):
         option = None
