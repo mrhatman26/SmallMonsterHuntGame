@@ -69,6 +69,16 @@ class Player():
                            "Your heart is filled with dread; your ears are deafened; the monster is close.",
                            "You tread lightly, something tells you the monster is nearby. Perhaps it's how you've gone deaf?",
                            "The quakes from whatever is nearby cause you to nearly drop your weapon and cover your ears."]
+
+    ontop_flavour_text = ["Do you enjoy that wall agent? Are you very much in pain agent?. Do you think another agent will suffice, agent? Maybe we shouldn't ask you since you'd be wrong.",
+                          "Agent?! Agent?! Helloooooo?! Gah, another agent'll have to do.",
+                          "Hmmm... Why is there a hole in your stomach? And, how are you still alive? Another agent is on their way. Not for you of course.",
+                          "We need some help on aisle 10. And another agent.",
+                          "Do try harder next time. Oh wait, you're dead. We'll train the next agent more. Maybe they won't be such a failure as you.",
+                          "We thought you were qualified. A shame to see that even our agency can be wrong sometimes.",
+                          "Oh, what a shame. How will we ever find another agent for this? Quite easily actually.",
+                          "Enjoy your rest. You certainly haven't earned it. Another agent can pick up the slack.",
+                          "We shan't let your next of kin know of your eternal slumber. Do you even have any kin?"]
                              
 
     def __init__(self, room, debug):

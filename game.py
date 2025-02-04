@@ -11,11 +11,20 @@ if my_os == "Darwin" or my_os == "Linux":
     clear = lambda: os.system('clear')
 else:
     clear = lambda: os.system('cls')
+debug = ask_question("Debug?", "Enable debug mode?")
 while True:
     #Setup game
-    debug = ask_question("Debug?", "Enable debug mode?")
     turns = 0
-    room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "), debug)
+    while True:
+        room = None
+        try:
+            del room
+            room = Room(get_valid_number("Room Width: "), get_valid_number("Room Height: "), debug)
+            break
+        except Exception as e:
+            print("So sorry, but I failed to make the gameboard. Please try again! I am very new to this!\nOh, and the exact problem was:\n\t" + str(e))
+            pause()
+            print("")
     monster = Monster(room)
     player = Player(room, debug)
     result = -1
@@ -29,7 +38,18 @@ while True:
         if result == 1:
             print("You win!")
             pause()
-            sys.exit()
+            if ask_question("Play Again?", "Would you like to play again?") is False:
+                sys.exit()
+            else:
+                break
+        if monster.check_ontop(player) is True:
+            print("\nYou died...")
+            print_random_list(player.ontop_flavour_text)
+            pause()
+            if ask_question("Play Again?", "Would you like to play again?") is False:
+                sys.exit()
+            else:
+                break
         pause()
         #Monster's turn next
         print()

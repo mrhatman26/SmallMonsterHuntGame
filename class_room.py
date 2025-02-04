@@ -1,4 +1,5 @@
 import random as r
+from misc import pause
 
 class Room():
     pos = [0, 0]
@@ -10,6 +11,7 @@ class Room():
     def __init__(self, room_width, room_height, debug):
         self.room_width = room_width
         self.room_height = room_height
+        self.room = []
         self.generate_room(False)
         self.pos[0] = -1
         self.pos[1] = -1
@@ -101,29 +103,33 @@ class Room():
     def describe_movement(self, current_pos, no_print):
         possible_movement_directions = [False, False, False, False] #0 = Up, 1 = Down, 2 = Left and 3 = Right
         #Check above pos
-        if current_pos[1] > 0:
-            if self.room[current_pos[1] - 1][current_pos[0]] == True:
-                possible_movement_directions[0] = True
-                if no_print is False:
-                    print("You can move North from here")
-        #Check below pos
-        if current_pos[1] < self.room_height - 1:
-            if self.room[current_pos[1] + 1][current_pos[0]] == True:
-                possible_movement_directions[1] = True
-                if no_print is False:
-                    print("You can move South from here")
-        #Chceck left pos
-        if current_pos[0] > 0:
-            if self.room[current_pos[1]][current_pos[0] - 1] == True:
-                possible_movement_directions[2] = True
-                if no_print is False:
-                    print("You can move West from here")
-        #Check right pos
-        if current_pos[0] < self.room_width - 1:
-            if self.room[current_pos[1]][current_pos[0] + 1] == True:
-                possible_movement_directions[3] = True
-                if no_print is False:
-                    print("You can move East from here")
+        try:
+            if current_pos[1] > 0:
+                if self.room[current_pos[1] - 1][current_pos[0]] == True:
+                    possible_movement_directions[0] = True
+                    if no_print is False:
+                        print("You can move North from here")
+            #Check below pos
+            if current_pos[1] < self.room_height - 1:
+                if self.room[current_pos[1] + 1][current_pos[0]] == True:
+                    possible_movement_directions[1] = True
+                    if no_print is False:
+                        print("You can move South from here")
+            #Chceck left pos
+            if current_pos[0] > 0:
+                if self.room[current_pos[1]][current_pos[0] - 1] == True:
+                    possible_movement_directions[2] = True
+                    if no_print is False:
+                        print("You can move West from here")
+            #Check right pos
+            if current_pos[0] < self.room_width - 1:
+                if self.room[current_pos[1]][current_pos[0] + 1] == True:
+                    possible_movement_directions[3] = True
+                    if no_print is False:
+                        print("You can move East from here")
+        except Exception as e:
+            print("Pardon my interruption, but I have lost track of the game board. Here is what I know:\n" + str(e))
+            pause()
         return possible_movement_directions
 
     def show_pos_in_room(self, pos):

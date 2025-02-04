@@ -95,4 +95,13 @@ class Monster():
                 return False
         except:
             return False
+
+    def check_ontop(self, player):
+        try:
+            if self.pos[0] == player.pos[0] and self.pos[1] == player.pos[1]:
+                return True
+            else:
+                return False
+        except:
+            return False
             
